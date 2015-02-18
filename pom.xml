@@ -527,11 +527,11 @@
                 <artifactId>rxjava</artifactId>
                 <version>${reactivex.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.reactivex</groupId>
-                <artifactId>rxnetty</artifactId>
-                <version>${reactivex.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>io.reactivex</groupId>-->
+                <!--<artifactId>rxnetty</artifactId>-->
+                <!--<version>${reactivex.version}</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
