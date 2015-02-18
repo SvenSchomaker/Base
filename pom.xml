@@ -30,12 +30,14 @@
         <jackson.version>2.3.0</jackson.version>
         <netty.version>4.0.25.Final</netty.version>
         <hazelcast.version>3.4</hazelcast.version>
+        <reactivex.version>1.0.6</reactivex.version>
+        <disruptor.version>3.3.0</disruptor.version>
 
         <hibernate.version>4.3.4.Final</hibernate.version>
         <hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
         <hibernate-search.version>4.5.0.Final</hibernate-search.version>
 
-        <spring.version>4.0.3.RELEASE</spring.version>
+        <spring.version>4.1.4.RELEASE</spring.version>
         <spring.batch.version>2.2.3.RELEASE</spring.batch.version>
         <spring.ws.version>2.1.4.RELEASE</spring.ws.version>
         <spring.integration.version>3.0.1.RELEASE</spring.integration.version>
@@ -518,12 +520,17 @@
             <dependency>
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
-                <version>3.3.0</version>
+                <version>${disruptor.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.jdeferred</groupId>
-                <artifactId>jdeferred-core</artifactId>
-                <version>1.2.0</version>
+                <groupId>io.reactivex</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${reactivex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.reactivex</groupId>
+                <artifactId>rxnetty</artifactId>
+                <version>${reactivex.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.hazelcast</groupId>
