@@ -29,7 +29,8 @@
         <gatling.version>2.1.2</gatling.version>
         <cucumber.version>1.1.5</cucumber.version>
         <jackson.version>2.3.0</jackson.version>
-        <undertow.version>1.1.2.Final</undertow.version>
+        <netty.version>4.0.25.Final</netty.version>
+        <!--<netty.version>5.0.0.Alpha1</netty.version>-->
         <hazelcast.version>3.4</hazelcast.version>
         <reactivex.version>1.0.6</reactivex.version>
         <disruptor.version>3.3.0</disruptor.version>
@@ -472,12 +473,18 @@
                 <version>${spring.integration.version}</version>
             </dependency>
 
-            <!-- HTTP server -->
+            <!-- Async HTTP server -->
             <dependency>
-                <groupId>io.undertow</groupId>
-                <artifactId>undertow-core</artifactId>
-                <version>${undertow.version}</version>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
             </dependency>
+            <dependency>
+                <groupId>tv.cntt</groupId>
+                <artifactId>netty-router</artifactId>
+                <version>1.10</version>
+            </dependency>
+
 
             <!-- CASSANDRA -->
             <dependency>
