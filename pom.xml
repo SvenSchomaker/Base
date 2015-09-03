@@ -21,22 +21,22 @@
 
         <!-- Dependency versions -->
         <java.version>1.8</java.version>
-        <groovy.version>2.4.0</groovy.version>
+        <groovy.version>2.4.4</groovy.version>
 
         <slf4j.version>1.7.10</slf4j.version>
         <log4j.version>2.1</log4j.version>
 
-        <gatling.version>2.1.2</gatling.version>
         <cucumber.version>1.1.5</cucumber.version>
         <jackson.version>2.3.0</jackson.version>
         <netty.version>4.0.25.Final</netty.version>
         <!--<netty.version>5.0.0.Alpha1</netty.version>-->
-        <hazelcast.version>3.4</hazelcast.version>
+        <hazelcast.version>3.5</hazelcast.version>
         <reactivex.version>1.0.6</reactivex.version>
         <disruptor.version>3.3.0</disruptor.version>
         <metrics.version>3.1.0</metrics.version>
         <reactor.version>2.0.0.RC1</reactor.version>
         <jctools.version>1.0</jctools.version>
+        <simplereact.version>0.82</simplereact.version>
 
         <hibernate.version>4.3.4.Final</hibernate.version>
         <hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
@@ -48,7 +48,7 @@
         <spring.integration.version>3.0.1.RELEASE</spring.integration.version>
 
         <db.postgresql.version>9.3-1101-jdbc41</db.postgresql.version>
-        <db.cassandra.version>2.1.1</db.cassandra.version>
+        <db.cassandra.version>2.1.3</db.cassandra.version>
 
         <!-- WEB UI -->
         <jsf.version>2.2.4</jsf.version>
@@ -72,6 +72,13 @@
 
     </properties>
 
+    <repositories>
+        <repository>
+            <id>spring-libs-snapshot</id>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+
 	<build>
         <plugins>
 
@@ -81,47 +88,14 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.18.1</version>
                 <configuration>
-                    <forkMode>always</forkMode>
+                    <forkCount>1</forkCount>
                 </configuration>
-            </plugin>
-
-            <!-- BUILD SUPPORT FOR SCALA/GROOVY -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/main/groovy</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>add-test-source</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/test/groovy</source>
-                                <source>src/test/loadtest/scala</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -140,7 +114,7 @@
                 <!-- JAVA/GROOVY -->
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.2</version>
+                    <version>3.3</version>
                     <configuration>
                         <compilerId>groovy-eclipse-compiler</compilerId>
                         <source>${java.version}</source>
@@ -151,12 +125,12 @@
                         <dependency>
                             <groupId>org.codehaus.groovy</groupId>
                             <artifactId>groovy-eclipse-compiler</artifactId>
-                            <version>2.9.0-01</version>
+                            <version>2.9.2-01</version>
                         </dependency>
                         <dependency>
                             <groupId>org.codehaus.groovy</groupId>
                             <artifactId>groovy-eclipse-batch</artifactId>
-                            <version>2.3.4-01</version>
+                            <version>2.4.3-01</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -194,6 +168,12 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-core</artifactId>
+                <version>1.10.4</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>com.carrotsearch</groupId>
                 <artifactId>junit-benchmarks</artifactId>
                 <version>0.7.2</version>
@@ -217,58 +197,7 @@
                 <version>2.2.9</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>com.jayway.restassured</groupId>
-                <artifactId>rest-assured</artifactId>
-                <version>2.3.0</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-xml</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-java</artifactId>
-                <version>${cucumber.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-junit</artifactId>
-                <version>${cucumber.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-spring</artifactId>
-                <version>${cucumber.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.gatling.highcharts</groupId>
-                <artifactId>gatling-charts-highcharts</artifactId>
-                <version>${gatling.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.gatling</groupId>
-                <artifactId>gatling-core</artifactId>
-                <version>2.1.4</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.easytesting</groupId>
-                <artifactId>fest-reflect</artifactId>
-                <version>1.4.1</version>
-            </dependency>
-	
+
 			<!-- SLF4J/LOG4J -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -306,7 +235,6 @@
                 <version>${log4j.version}</version>
             </dependency>
 
-
             <!-- Commons -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -323,7 +251,6 @@
                 <artifactId>commons-dbcp2</artifactId>
                 <version>2.0.1</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -373,6 +300,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>1.10</version>
             </dependency>
 
             <!-- Hibernate JPA -->
@@ -460,33 +392,6 @@
 				<scope>test</scope>
 			</dependency>
 
-            <!-- Spring integration -->
-            <dependency>
-                <groupId>org.springframework.integration</groupId>
-                <artifactId>spring-integration-core</artifactId>
-                <version>${spring.integration.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.integration</groupId>
-                <artifactId>spring-integration-xml</artifactId>
-                <version>${spring.integration.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.integration</groupId>
-                <artifactId>spring-integration-jms</artifactId>
-                <version>${spring.integration.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.integration</groupId>
-                <artifactId>spring-integration-stream</artifactId>
-                <version>${spring.integration.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.integration</groupId>
-                <artifactId>spring-integration-test</artifactId>
-                <version>${spring.integration.version}</version>
-            </dependency>
-
             <!-- Async HTTP server -->
             <dependency>
                 <groupId>io.netty</groupId>
@@ -498,13 +403,52 @@
                 <artifactId>netty-router</artifactId>
                 <version>1.10</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.ning</groupId>
+                <artifactId>async-http-client</artifactId>
+                <version>1.9.25</version>
+            </dependency>
 
             <!-- CASSANDRA -->
             <dependency>
                 <groupId>org.apache.cassandra</groupId>
                 <artifactId>cassandra-all</artifactId>
                 <version>${db.cassandra.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.cassandra</groupId>
+                <artifactId>cassandra-driver-mapping</artifactId>
+                <version>${db.cassandra.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.cassandraunit</groupId>
+                <artifactId>cassandra-unit</artifactId>
+                <version>2.1.3.1</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cassandra</groupId>
+                        <artifactId>cassandra-all</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.hectorclient</groupId>
+                        <artifactId>hector-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- PostgreSQL -->
@@ -514,18 +458,21 @@
                 <version>${db.postgresql.version}</version>
             </dependency>
 
-			<!--  CGLIB -->
-			<dependency>
-				<groupId>cglib</groupId>
-				<artifactId>cglib</artifactId>
-				<version>3.1</version>
-			</dependency>
-
-            <!-- Javassist -->
+            <!-- Class Manipulation -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>3.1</version>
+            </dependency>
             <dependency>
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
                 <version>3.19.0-GA</version>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>0.6.12</version>
             </dependency>
 
             <!-- Jackson JSON Mapper -->
@@ -561,6 +508,36 @@
                 <artifactId>guava</artifactId>
                 <version>18.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.truth</groupId>
+                <artifactId>truth</artifactId>
+                <version>0.26</version>
+            </dependency>
+            <dependency>
+                <groupId>org.easytesting</groupId>
+                <artifactId>fest-reflect</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe</groupId>
+                <artifactId>config</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>0.9.10</version>
+            </dependency>
+            <dependency>
+                <groupId>ma.glasnost.orika</groupId>
+                <artifactId>orika-core</artifactId>
+                <version>1.4.6</version>
+            </dependency>
 
             <!-- Async/Cluster -->
             <dependency>
@@ -574,35 +551,20 @@
                 <version>${disruptor.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.reactivex</groupId>
-                <artifactId>rxjava</artifactId>
-                <version>${reactivex.version}</version>
+                <groupId>com.nurkiewicz.asyncretry</groupId>
+                <artifactId>asyncretry</artifactId>
+                <version>0.0.7</version>
             </dependency>
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
                 <version>${hazelcast.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.projectreactor</groupId>
-                <artifactId>reactor-core</artifactId>
-                <version>${reactor.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.projectreactor</groupId>
-                <artifactId>reactor-net</artifactId>
-                <version>${reactor.version}</version>
-            </dependency>
 
             <!-- Metrics -->
             <dependency>
                 <groupId>io.dropwizard.metrics</groupId>
                 <artifactId>metrics-core</artifactId>
-                <version>${metrics.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.dropwizard.metrics</groupId>
-                <artifactId>metrics-annotations</artifactId>
                 <version>${metrics.version}</version>
             </dependency>
             <dependency>
@@ -616,7 +578,7 @@
                 <version>${metrics.version}</version>
             </dependency>
 
-			<!-- AspectJ -->
+            <!-- AspectJ -->
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjrt</artifactId>
@@ -684,8 +646,8 @@
             <!-- JPA -->
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.0-api</artifactId>
-                <version>1.0.1.Final</version>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>1.0.0.Final</version>
             </dependency>
 
             <!-- VALIDATION -->
@@ -829,10 +791,10 @@
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-reflect</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
 
 		<!-- SLF4J -->
 		<dependency>
@@ -884,12 +846,16 @@
 			<artifactId>guava</artifactId>
 		</dependency>
         <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-reflect</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.truth</groupId>
+            <artifactId>truth</artifactId>
         </dependency>
 
 	</dependencies>
