@@ -1,23 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                      http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.syrics</groupId>
-	<artifactId>base-light</artifactId>
-	<version>1.0</version>
-	<packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.syrics</groupId>
+    <artifactId>base-light</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
 
-	<name>Base.Light</name>
-	<url>http://www.syrics.de/</url>
+    <name>Base.Light</name>
+    <url>http://www.syrics.de/</url>
 
     <description>
         The base maven project is used as the common base POM to
         centralize dependency management of common dependencies.
     </description>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.build.timestamp.format>dd.MM.yyyy-HH:mm</maven.build.timestamp.format>
-		<build.date>${maven.build.timestamp}</build.date>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>dd.MM.yyyy-HH:mm</maven.build.timestamp.format>
+        <build.date>${maven.build.timestamp}</build.date>
 
         <!-- Dependency versions -->
         <java.version>1.8</java.version>
@@ -42,13 +42,26 @@
         <ui.bootstrap.datetimepicker.version>2.2.0</ui.bootstrap.datetimepicker.version>
         <ui.bootstrap.tagsinput.version>0.3.9</ui.bootstrap.tagsinput.version>
         <ui.bootstrap.fuelux.version>2.6.0</ui.bootstrap.fuelux.version>
-        
+
     </properties>
 
-	<build>
+    <build>
         <plugins>
 
-            <!-- Unit Test Runner -->
+            <!-- JAVA 8 -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <compilerId>javac</compilerId>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgument>-g</compilerArgument>
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -77,30 +90,6 @@
         <pluginManagement>
             <plugins>
 
-                <!-- JAVA/GROOVY -->
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
-                    <configuration>
-                        <compilerId>groovy-eclipse-compiler</compilerId>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.codehaus.groovy</groupId>
-                            <artifactId>groovy-eclipse-compiler</artifactId>
-                            <version>2.9.2-01</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.groovy</groupId>
-                            <artifactId>groovy-eclipse-batch</artifactId>
-                            <version>2.4.3-01</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
                 <!-- EXEC SUPPORT -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -110,17 +99,17 @@
 
             </plugins>
         </pluginManagement>
-        
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-	</build>
 
-	<dependencyManagement>
-		<dependencies>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
@@ -164,12 +153,12 @@
                 <scope>test</scope>
             </dependency>
 
-			<!-- SLF4J/LOG4J -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
+            <!-- SLF4J/LOG4J -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
@@ -202,11 +191,11 @@
             </dependency>
 
             <!-- Commons -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.3.2</version>
-			</dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.3.2</version>
+            </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -218,15 +207,15 @@
                 <version>3.2.1</version>
             </dependency>
             <dependency>
-				<groupId>commons-beanutils</groupId>
-				<artifactId>commons-beanutils</artifactId>
-				<version>1.9.2</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>2.2</version>
-			</dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.2</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.2</version>
+            </dependency>
 
             <!-- Couchbase -->
             <dependency>
@@ -308,6 +297,11 @@
                 <artifactId>javassist</artifactId>
                 <version>3.20.0-GA</version>
             </dependency>
+            <dependency>
+                <groupId>com.javaslang</groupId>
+                <artifactId>javaslang</artifactId>
+                <version>2.0.0-beta</version>
+            </dependency>
 
             <!-- Async/Cluster -->
             <dependency>
@@ -373,19 +367,14 @@
             </dependency>
 
         </dependencies>
-		
-	</dependencyManagement>
 
-	<dependencies>
+    </dependencyManagement>
+
+    <dependencies>
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
-
-        <dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
         <dependency>
             <groupId>com.carrotsearch</groupId>
             <artifactId>junit-benchmarks</artifactId>
@@ -394,10 +383,10 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -407,15 +396,15 @@
             <artifactId>assertj-core</artifactId>
         </dependency>
 
-		<!-- SLF4J -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
+        <!-- SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-		</dependency>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
@@ -438,10 +427,10 @@
         </dependency>
 
         <!-- MISC -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.google.truth</groupId>
             <artifactId>truth</artifactId>
@@ -450,7 +439,11 @@
             <groupId>org.easytesting</groupId>
             <artifactId>fest-reflect</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.javaslang</groupId>
+            <artifactId>javaslang</artifactId>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 </project>
